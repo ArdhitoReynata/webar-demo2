@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.js"></script>
+
+<style>
+body{
+margin:0;
+overflow:hidden;
+}
+</style>
+
+</head>
+
+<body>
+
+<a-scene embedded arjs="sourceType: webcam; debugUIEnabled: false;">
+
+<a-assets>
+
+<img id="target" src="target.png">
+<img id="frame1" src="frame1.png">
+<img id="frame2" src="frame2.png">
+<img id="frame3" src="frame3.png">
+
+</a-assets>
+
+<a-marker type="pattern" url="target.patt">
+
+<a-plane
+id="anim"
+src="#target"
+width="1.5"
+height="1.5"
+rotation="-90 0 0">
+</a-plane>
+
+</a-marker>
+
+<a-entity camera></a-entity>
+
+</a-scene>
+
+<script>
+
+window.addEventListener("load",()=>{
+
+const plane=document.querySelector("#anim");
+
+const frames=["#frame1","#frame2","#frame3","#frame2"];
+
+let i=0;
+let playing=false;
+
+function startAnimation(){
+
+if(playing) return;
+
+playing=true;
+
+setInterval(()=>{
+
+plane.setAttribute("src",frames[i]);
+i=(i+1)%frames.length;
+
+},150);
+
+}
+
+document.body.addEventListener("click",startAnimation);
+document.body.addEventListener("touchstart",startAnimation);
+
+});
+
+</script>
+
+</body>
+</html>
